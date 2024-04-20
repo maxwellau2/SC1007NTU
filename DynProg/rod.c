@@ -4,65 +4,85 @@
 //memory
 int *r;
 
+int max(int a, int b)
+{
+    if (a>b) return a;
+    return b;
+}
+
 int cr_recursive(int *p, int n)
 {
-    // write your code here
-    // base case, no more rod
-    if (n==0)
+    // base case no more rod left
+    if (n == 0)
         return 0;
-    int max = -1;
+    // look for other rod lengths
+    int maxval = -1;
     for (int i=1; i<=n; i++)
     {
-        int price = p[i] + cr_recursive(p, n-i);
-        if (price > max)
-            max = price;
+        int price = p[i] + cr_recursive(p, n-i); // get new price,
+        // intuition is to get the current price, and find max value of REMAINING rod
+        maxval = max(price, maxval);
+        // update max val
     }
-    return max;
+    return maxval;
 }
 
 int cr_top_down_dp_recurse(int* p, int n, int map[])
 {
+    // base case
     if (n==0)
         return 0;
+
+    // we've seen this guy before ! (memoization)
     if (map[n] != -1)
         return map[n];
-    // bopes need to recurse
-    int max = -1;
+
+    // look for prices of remaining rod
+    int maximum = -1;
     for (int i=1; i<=n; i++)
     {
-        int price = p[i] + cr_top_down_dp_recurse(p, n-i, map);
-        if (price > max)
-        {
-            max = price;
-            map[n] = max;
-        }
+        int price = p[i] + cr_top_down_dp_recurse(p,n-i,map);
+        maximum = max(price, maximum);
+        map[n] = maximum;
     }
-    return max;
+    return maximum;
 }
+
+
 int cr_top_down_dp(int *p, int n)
 {
-    //write your code here
-    int map[n+1];
-    for(int i=0; i<n+1; i++)
-        map[i] = -1;
-    int res = cr_top_down_dp_recurse(p,n,map);
-    return res;
+    // init map
+    int *map = (int*)malloc(sizeof(int)*n+1);
+    for (int i=0; i<=n; i++)
+    {
+        map[i] = -1; // init values to -1
+    }
+    // call recursive step
+    return cr_top_down_dp_recurse(p, n, map);
 }
 
 int cr_bottom_up_dp(int *p, int n)
 {
     //write your code here
+    // create map of size n, initialise to 0 to store possible lengths
     int map[n+1];
     for (int i=0; i<n+1; i++)
-        map[i] = -1;
+        map[i] = 0;
 
-    for(int i=1; i<n+1; i++)
+    // for each length from 1 to n
+    for (int length = 1; length < n+1; length ++)
     {
-        for(int j=1; j<i; j++)
+        int max_val = -1;
+        // number of possible cuts is the length (u cut the length into 1cm chunks, u get length number of items), iterate over them
+        for (int cut = 1; cut < length+1; cut ++)
         {
-            
+            // get maximum possible value
+            int price = p[cut] + map[length-cut];
+            max_val = max(max_val, price);
         }
+        map[length] = max_val; // store in map
     }
+    return map[n];
 }
  
 void main ()
