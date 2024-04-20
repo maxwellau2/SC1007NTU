@@ -67,28 +67,71 @@ to solve m coloring problem */
 
 
 int graphColoring(int** graph, int m, int* color, int v)
+{
+    // base case: all vertices colored, global variable V is the number of vertices
+    if (v == V)
     {
-        // base case, v=V
-        if (v==V)
-        {
-            printSolution(color);
-            return 1;
-        }
-        // else, look thru other colors in this vertex, check if its safe
-        int result = 0;
-        for (int i=1; i<=m; i++)
-        {
-            if (isSafe(v,graph, color,i))
-            {
-                // color it
-                color[v] = i;
-                result = graphColoring(graph, m, color, v+1) + result;
-                // backtracking step
-                color[v] = 0;
-            }
-        }
-        return result;
+        printSolution(color);
+        return 1;
     }
+    int solutions = 0;
+    // iterate all other colors for this vertex, color is defined by m
+    for (int i=1; i<=m; i++)
+    {
+        // check if move is valid
+        if(isSafe(v, graph, color, i))
+        {
+            // color the graph
+            color[v] = i;
+            // look for other solutions for the NEXT vertex (v+1)
+            solutions += graphColoring(graph, m, color, v+1);
+            // backtracking step, uncolor it
+            color[v] = 0;
+        }
+    }
+    return solutions;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// {
+//     // base case, v=V
+//     if (v==V)
+//     {
+//         printSolution(color);
+//         return 1;
+//     }
+//     // else, look thru other colors in this vertex, check if its safe
+//     int result = 0;
+//     for (int i=1; i<=m; i++)
+//     {
+//         if (isSafe(v,graph, color,i))
+//         {
+//             // color it
+//             color[v] = i;
+//             result = graphColoring(graph, m, color, v+1) + result;
+//             // backtracking step
+//             color[v] = 0;
+//         }
+//     }
+//     return result;
+// }
 
 int main()
 {

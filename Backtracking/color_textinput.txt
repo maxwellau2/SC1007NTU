@@ -1,0 +1,11 @@
+// COPY HERE
+
+3
+4
+0 1 1 1
+1 0 1 0
+1 1 0 1
+1 0 1 0
+
+
+// DONT COPY BELOW, answer is 6 :)

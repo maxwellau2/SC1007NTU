@@ -31,35 +31,106 @@ int main()
 
 int nQueens(int** board, int BSize, int col)
 {
- //Write your code here
- //Safe Place checking is provide below, you are free to use it.
-    nQueenRecurse(board, BSize, 0);
-    return 1;
+    int solutions = nQueenRecurse(board, BSize, 0);
+    printf("%d", solutions);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// {
+//  //Write your code here
+//  //Safe Place checking is provide below, you are free to use it.
+//     nQueenRecurse(board, BSize, 0);
+//     return 1;
+// }
 
 int nQueenRecurse(int**board, int BSize, int col)
 {
-    // base case : all queens have been placed
+    // base case, all 4 queens are on the board
     if (col == BSize)
     {
-        // all queens on board, print
         printSolution(board, BSize);
         return 1;
     }
-    // look thru current ROWS of column and check if queens are safe
-    int res = 0;
+    // else iterate thru all possible moves
+    int solutions = 0;
     for (int i=0; i<BSize; i++)
     {
         if (isSafe(board, BSize, i, col))
         {
+            // place queen
             board[i][col] = 1;
-            res = nQueenRecurse(board, BSize, col + 1) || res;
-            // backtrack
+            // recurse
+            solutions += nQueenRecurse(board, BSize, col+1);
+            // backtracking step
             board[i][col] = 0;
         }
     }
-    return res;
+    return solutions;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// {
+//     // base case : all queens have been placed
+//     if (col == BSize)
+//     {
+//         // all queens on board, print
+//         printSolution(board, BSize);
+//         return 1;
+//     }
+//     // look thru current ROWS of column and check if queens are safe
+//     int res = 0;
+//     for (int i=0; i<BSize; i++)
+//     {
+//         if (isSafe(board, BSize, i, col))
+//         {
+//             board[i][col] = 1;
+//             res = nQueenRecurse(board, BSize, col + 1) || res;
+//             // backtrack
+//             board[i][col] = 0;
+//         }
+//     }
+//     return res;
+// }
 
 //Safe checking
 int isSafe(int** board,int BSize, int row, int col)
