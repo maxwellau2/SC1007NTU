@@ -5,21 +5,23 @@
 
 //////////////////////////////////////////////////////////////////////////////////
 
-typedef struct _bstnode{
-	int item;
-	struct _bstnode *left;
-	struct _bstnode *right;
-} BSTNode;   // You should not change the definition of BSTNode
+typedef struct _bstnode
+{
+    int item;
+    struct _bstnode *left;
+    struct _bstnode *right;
+} BSTNode; // You should not change the definition of BSTNode
 
-typedef struct _stackNode{
-	BSTNode *data;
-	struct _stackNode *next;
-}StackNode; // You should not change the definition of StackNode
+typedef struct _stackNode
+{
+    BSTNode *data;
+    struct _stackNode *next;
+} StackNode; // You should not change the definition of StackNode
 
 typedef struct _stack
 {
-	StackNode *top;
-}Stack; // You should not change the definition of Stack
+    StackNode *top;
+} Stack; // You should not change the definition of Stack
 
 ///////////////////////// function prototypes ////////////////////////////////////
 
@@ -118,7 +120,6 @@ int main()
     return 0;
 }
 
-
 //////////////////////////////////////////////////////////////////////////////////
 
 // void postOrderIterative(BSTNode *root)
@@ -126,13 +127,13 @@ int main()
 // 	if(root == NULL) return;
 // 	postOrderIterative(root->left);
 // 	postOrderIterative(root->right);
-    
+
 // 	printf("%d ", root->item);
 // }
 
 void postOrderIterative(BSTNode *root)
 {
-	Stack s;
+Stack s;
     s.top = NULL;
     if (root==NULL) return;
     // create 3 nodes;
@@ -161,7 +162,6 @@ void postOrderIterative(BSTNode *root)
     }
 }
 
-
 // make a stack
 // make a current(set to root), lastvisited, peeknode
 // while current isnt null or stack isnt empty
@@ -170,106 +170,105 @@ void postOrderIterative(BSTNode *root)
 // if peek's right isnt null and isnt last visited, set current to peek's right
 // else, print peeknode and set lastvisited to pop(s);
 
-
 ///////////////////////////////////////////////////////////////////////////////
 
-void insertBSTNode(BSTNode **node, int value){
-	if (*node == NULL)
-	{
-		*node = malloc(sizeof(BSTNode));
+void insertBSTNode(BSTNode **node, int value)
+{
+    if (*node == NULL)
+    {
+        *node = malloc(sizeof(BSTNode));
 
-		if (*node != NULL) {
-			(*node)->item = value;
-			(*node)->left = NULL;
-			(*node)->right = NULL;
-		}
-	}
-	else
-	{
-		if (value < (*node)->item)
-		{
-			insertBSTNode(&((*node)->left), value);
-		}
-		else if (value >(*node)->item)
-		{
-			insertBSTNode(&((*node)->right), value);
-		}
-		else
-			return;
-	}
+        if (*node != NULL)
+        {
+            (*node)->item = value;
+            (*node)->left = NULL;
+            (*node)->right = NULL;
+        }
+    }
+    else
+    {
+        if (value < (*node)->item)
+        {
+            insertBSTNode(&((*node)->left), value);
+        }
+        else if (value > (*node)->item)
+        {
+            insertBSTNode(&((*node)->right), value);
+        }
+        else
+            return;
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////
 
-void push(Stack *stack, BSTNode * node)
+void push(Stack *stack, BSTNode *node)
 {
-	StackNode *temp;
+    StackNode *temp;
 
-	temp = malloc(sizeof(StackNode));
+    temp = malloc(sizeof(StackNode));
 
-	if (temp == NULL)
-		return;
-	temp->data = node;
+    if (temp == NULL)
+        return;
+    temp->data = node;
 
-	if (stack->top == NULL)
-	{
-		stack->top = temp;
-		temp->next = NULL;
-	}
-	else
-	{
-		temp->next = stack->top;
-		stack->top = temp;
-	}
+    if (stack->top == NULL)
+    {
+        stack->top = temp;
+        temp->next = NULL;
+    }
+    else
+    {
+        temp->next = stack->top;
+        stack->top = temp;
+    }
 }
 
-
-BSTNode * pop(Stack * s)
+BSTNode *pop(Stack *s)
 {
-	StackNode *temp, *t;
-	BSTNode * ptr;
-	ptr = NULL;
+    StackNode *temp, *t;
+    BSTNode *ptr;
+    ptr = NULL;
 
-	t = s->top;
-	if (t != NULL)
-	{
-		temp = t->next;
-		ptr = t->data;
+    t = s->top;
+    if (t != NULL)
+    {
+        temp = t->next;
+        ptr = t->data;
 
-		s->top = temp;
-		free(t);
-		t = NULL;
-	}
+        s->top = temp;
+        free(t);
+        t = NULL;
+    }
 
-	return ptr;
+    return ptr;
 }
 
-BSTNode * peek(Stack * s)
+BSTNode *peek(Stack *s)
 {
-	StackNode *temp;
-	temp = s->top;
-	if (temp != NULL)
-		return temp->data;
-	else
-		return NULL;
+    StackNode *temp;
+    temp = s->top;
+    if (temp != NULL)
+        return temp->data;
+    else
+        return NULL;
 }
 
 int isEmpty(Stack *s)
 {
-	if (s->top == NULL)
-		return 1;
-	else
-		return 0;
+    if (s->top == NULL)
+        return 1;
+    else
+        return 0;
 }
-
 
 void removeAll(BSTNode **node)
 {
-	if (*node != NULL)
-	{
-		removeAll(&((*node)->left));
-		removeAll(&((*node)->right));
-		free(*node);
-		*node = NULL;
-	}
+    if (*node != NULL)
+    {
+        removeAll(&((*node)->left));
+        removeAll(&((*node)->right));
+        free(*node);
+        *node = NULL;
+    }
 }
