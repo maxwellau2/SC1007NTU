@@ -86,53 +86,111 @@ int main()
 
 int Connected (Graph g)
 {
-    //write your code here
-    // choose any vertex
+    // pick random node
     int random = 0;
-    dfs(&g, random);
+    dfs(&g,random);
+    // check visited
     for (int i=0; i<g.V; i++)
     {
-        if(g.visited[i] == 0)
+        if(!g.visited[i])
             return 0;
     }
     return 1;
 }
 
+
+
+
+
+
+
+
+
+// {
+//     //write your code here
+//     // choose any vertex
+//     int random = 0;
+//     dfs(&g, random);
+//     for (int i=0; i<g.V; i++)
+//     {
+//         if(g.visited[i] == 0)
+//             return 0;
+//     }
+//     return 1;
+// }
+
 void dfs(Graph* g, int start)
 {
-    // create stack
     Stack s;
-    int found_unvisited;
-    s.head = NULL;
-    s.size = 0;
-    for (int i=0; i<g->V; i++) //reset visited arr to 0
-    {
-        g->visited[i] = 0;
-    }
+    s.head=NULL;
+    s.size=0;
     push(&s, start);
-    g->visited[start] = 1;
-    while (!isEmptyStack(s))
+    g->visited[start]=1;
+    while(!isEmptyStack(s))
     {
-        found_unvisited = 0;
-        int current_vertex = peek(s);
-        // visit neighbours of current vertex
-        for (int i=0; i < g->V; i++)
+        int has_unvisited=0;
+        int current_node = peek(s);
+        // visit neighbours
+        for (int i=0; i<g->V; i++)
         {
-            int neighbour = i;
-            if (g->matrix[current_vertex][i] != 0 && g->visited[neighbour] == 0) // they are adjacent and the neighbour has yet to be visited
+            if (g->matrix[current_node][i] && !g->visited[i])
             {
-                push(&s, neighbour);
-                g->visited[neighbour] = 1;
-                found_unvisited = 1;
+                g->visited[i] = 1;
+                push(&s, i);
+                has_unvisited ++;
                 break;
             }
         }
-        if (!found_unvisited)
-        {
+        if (!has_unvisited)
             pop(&s);
-        }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+// {
+//     // create stack
+//     Stack s;
+//     int found_unvisited;
+//     s.head = NULL;
+//     s.size = 0;
+//     for (int i=0; i<g->V; i++) //reset visited arr to 0
+//     {
+//         g->visited[i] = 0;
+//     }
+//     push(&s, start);
+//     g->visited[start] = 1;
+//     while (!isEmptyStack(s))
+//     {
+//         found_unvisited = 0;
+//         int current_vertex = peek(s);
+//         // visit neighbours of current vertex
+//         for (int i=0; i < g->V; i++)
+//         {
+//             int neighbour = i;
+//             if (g->matrix[current_vertex][i] != 0 && g->visited[neighbour] == 0) // they are adjacent and the neighbour has yet to be visited
+//             {
+//                 push(&s, neighbour);
+//                 g->visited[neighbour] = 1;
+//                 found_unvisited = 1;
+//                 break;
+//             }
+//         }
+//         if (!found_unvisited)
+//         {
+//             pop(&s);
+//         }
+//     }
+// }
 
 
 void printGraphMatrix(Graph g)

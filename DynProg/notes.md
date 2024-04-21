@@ -212,9 +212,7 @@ int knapsack(int i, int *s, int *v, int j, int **map)
     return map[i][j];
 }
 ```
-
-Appendix
-I created a simple helper function on the side to help code a lil easier
+Note: I created a simple helper function on the side to help code a lil easier
 ```c
 int max(int a, int b)
 {
@@ -222,3 +220,30 @@ int max(int a, int b)
     return b;
 }
 ```
+
+## More DP Qns from leetcode
+![alt text](image.png)
+``` py
+class Solution(object):
+    def climbStairs(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        # base case: no stairs to climb
+        memo = [-1] * (n+1)
+        def climbstairs_recurse(n):
+            if n==0:
+                return 1
+            if n<0:
+                return 0
+            if memo[n] != -1:
+                return memo[n]
+            solution = 0
+            solution += climbstairs_recurse(n-1)
+            solution += climbstairs_recurse(n-2)
+            memo[n] = solution
+            return solution
+        return climbstairs_recurse(n)
+```
+![alt text](image-1.png)
