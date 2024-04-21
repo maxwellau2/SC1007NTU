@@ -31,7 +31,6 @@ void removeAllItemsFromStack(Stack *sPtr);
 ////GRAPH////////////////////////////////////////////
 void printGraphMatrix(Graph );
 void dfs(Graph* g, int start);
-void view_visited(Graph g);
 ////////////////////////////////////////////
 
 int Connected (Graph);
@@ -54,78 +53,83 @@ int main()
        for(j=0;j<g.V;j++)
            g.matrix[i][j] = 0;
 	
-	g.visited = (int *) malloc(sizeof(int)*g.V);
-    for(i=0;i<g.V;i++) g.visited[i] = 0;
+    g.visited = (int *) malloc(sizeof(int)*g.V);
+    for(i=0;i<g.V;i++) 
+        g.visited[i] = 0;
     
     
     int V1, V2;
-    printf("Enter a directed edge: (press a to stop)\n");
+    printf("Enter two vertices which are adjacent to each other: (press a to stop)\n");
     while(scanf("%d %d",&V1,&V2)==2)
     {
         if(V1>0 && V1<=g.V && V2>0 && V2<=g.V)
         {
             g.matrix[V1-1][V2-1] = 1;
+            g.matrix[V2-1][V1-1] = 1;
             g.E++;
         }
         else
             break;
-        printf("Enter a directed edge: (press a to stop)\n");
+        printf("Enter two vertices which are adjacent to each other: (press a to stop)\n");
     }
     scanf("%*c");
     
     
     int res = Connected(g);
-    if(res == 1)
-        printf("The graph is strongly connected.\n");
+    if(res ==1)
+        printf("The graph is connected.\n");
     else
-        printf("The graph is not strongly connected.\n");
+        printf("The graph is not connected.\n");
 
     return 0;
 }
 
-int Connected(Graph g)
+int Connected (Graph g)
 {
+    // pick random node
+    int random = 0;
+    dfs(&g,random);
+    // check visited
     for (int i=0; i<g.V; i++)
     {
-        dfs(&g,i);
-        for (int j=0; j<g.V; j++)
-        {
-            if (g.visited[j] == 0)
-                return 0;
-            g.visited[j] = 0;
-        }
+        if(!g.visited[i])
+            return 0;
     }
     return 1;
-    
 }
+
+
+
+
+
+
+
+
+
 // {
-//     // printGraphMatrix(g);
-//     // perform DFS from every vertex
-//     for (int i = 0; i < g.V; i++)
+//     //write your code here
+//     // choose any vertex
+//     int random = 0;
+//     dfs(&g, random);
+//     for (int i=0; i<g.V; i++)
 //     {
-//         dfs(&g, i);
-//         // view_visited(g);
-//         // check if all nodes are visited
-//         for (int j = 0; j < g.V; j++)
-//         {
-//             if (!g.visited[j])
-//                 return 0; // if any vertex is not visited, return 0
-//         }
+//         if(g.visited[i] == 0)
+//             return 0;
 //     }
-//     return 1; // if all vertices are visited from every starting vertex, return 1
+//     return 1;
 // }
 
 void dfs(Graph* g, int start)
 {
     Stack s;
-    s.head = NULL;
-    s.size = 0;
+    s.head=NULL;
+    s.size=0;
     push(&s, start);
-    g->visited[start] = 1;
-    while (!isEmptyStack(s))
+    g->visited[start]=1;
+    while(!isEmptyStack(s))
     {
+        int has_unvisited=0;
         int current_node = peek(s);
-        int has_unvisited = 0;
         // visit neighbours
         for (int i=0; i<g->V; i++)
         {
@@ -141,10 +145,6 @@ void dfs(Graph* g, int start)
             pop(&s);
     }
 }
-
-
-
-
 
 
 
@@ -192,15 +192,6 @@ void dfs(Graph* g, int start)
 //     }
 // }
 
-
-void view_visited(Graph g)
-{
-    printf("Visited:\n");
-    for (int k=0; k<g.V; k++)
-    {
-        printf("idx %d : %d\n", k, g.visited[k]);
-    }
-}
 
 void printGraphMatrix(Graph g)
 {

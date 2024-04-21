@@ -1,0 +1,29 @@
+4
+1 2
+2 3
+a
+
+--> not connected
+
+4
+1 2
+2 3
+3 4
+a
+
+--> connected
+
+4
+1 2
+3 4
+a
+
+--> not connected
+
+4
+1 2
+2 3
+1 4
+a
+
+--> connected
