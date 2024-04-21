@@ -5,7 +5,7 @@
 3. Once you understand the code, just copy the code 3-5 times, u can do so by commenting out my worked solution and rewriting it over and over again
 ![alt text](image.png)
 4. Just keep copying it until u undersand 70% of it.
-5. Hide the worked solution and try to write out the worked example from memory. this will force u to understand the concepts from the code.
+5. Hide the worked solution and try to write out the worked example from memory. when u get stuck (10 seconds, just refer to the solution, and hide it again, and continue) this will force u to understand the concepts from the code.
 6. Rinse n repeat until crispy and golden brown
 
 ## You will get to the point where u don't even need to look at bfs/dfs code to explain what it does. ur gonna be a leetcode god after this mod :) ENjoy~
